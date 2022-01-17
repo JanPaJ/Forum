@@ -1,5 +1,6 @@
+{% load hitcount_tags %}
 {% load static %}
-
+{%block content%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,7 +43,7 @@
     <div class="container">
         <!--Nawigacja-->
         <div class="navigate">
-            <span><a href="#">Moje Forum</a> >> <a href="#">Losowe Tematy</a></span>
+            <span><a href="{% url 'home'%}">Moje Forum</a> >> <a href="{{forum.get_url}}">{{forum.title}}</a></span>
         </div>
         <div class="posts-table">
             <div class="table-head">
@@ -51,96 +52,28 @@
                 <div class="replies">Opdowiedzi/Wyświetlenia</div>
                 <div class="last-reply">Ostatnia odpowiedź</div>
             </div>
+
+            {% for post in posts%}
             <div class="table-row">
                 <div class="status"><i class="	fa fa-line-chart"></i></div>
                 <div class="subjects">
-                    <a href="#">GIS w 2022</a>
+                    <a href="{{post.get_url}}">{{post.title}}</a>
                     <br>
-                    <span>Rozpoczęty przez <b><a href="#">Użytkownik</a></b></span>
+                    <span>Rozpoczęty przez <b><a href="#">{{post.user.fullname|title}}</a></b></span>
                 </div>
 
                 <div class="replies">
-                    2 Opdowiedzi <br> 125 Wyświetleń
+                    {{post.num_comments}} Komentarzy <br> {%get_hit_count for post%} Wyświetleń
                 </div>
 
                 <div class="last-reply">
-                    Oct 12 2021
-                    <br>Przez <b><a href="#">Użytkownika</a></b>
+                    {{post.last_reply.date|date}}
+                    <br>Przez <b><a href="#">{{post.last_reply.user.fullname|title}}</a></b>
                 </div>
             </div>
+            {% endfor %}
 
-            <div class="table-row">
-                <div class="status"><i class="fa fa-frown-o"></i></div>
-                <div class="subjects">
-                    <a href="#">GIS w 2022</a>
-                    <br>
-                    <span>Rozpoczęty przez <b><a href="#">Użytkownik</a></b></span>
-                </div>
-
-                <div class="replies">
-                    2 Opdowiedzi <br> 125 Wyświetleń
-                </div>
-
-                <div class="last-reply">
-                    Oct 12 2021
-                    <br>Przez <b><a href="#">Użytkownika</a></b>
-                </div>
-            </div>
-
-            <div class="table-row">
-                <div class="status"><i class="fa fa-smile-o"></i></div>
-                <div class="subjects">
-                    <a href="#">GIS w 2022</a>
-                    <br>
-                    <span>Rozpoczęty przez <b><a href="#">Użytkownik</a></b></span>
-                </div>
-
-                <div class="replies">
-                    2 Opdowiedzi <br> 125 Wyświetleń
-                </div>
-
-                <div class="last-reply">
-                    Oct 12 2021
-                    <br>Przez <b><a href="#">Użytkownika</a></b>
-                </div>
-            </div>
-
-            <div class="table-row">
-                <div class="status"><i class="fa fa-meh-o"></i></div>
-                <div class="subjects">
-                    <a href="#">GIS w 2022</a>
-                    <br>
-                    <span>Rozpoczęty przez <b><a href="#">Użytkownik</a></b></span>
-                </div>
-
-                <div class="replies">
-                    2 Opdowiedzi <br> 125 Wyświetleń
-                </div>
-
-                <div class="last-reply">
-                    Oct 12 2021
-                    <br>Przez <b><a href="#">Użytkownika</a></b>
-                </div>
-            </div>
-
-
-            <div class="table-row">
-                <div class="status"><i class="fa fa-key"></i></div>
-                <div class="subjects">
-                    <a href="#">GIS w 2022</a>
-                    <br>
-                    <span>Rozpoczęty przez <b><a href="#">Użytkownik</a></b></span>
-                </div>
-
-                <div class="replies">
-                    2 Opdowiedzi <br> 125 Wyświetleń
-                </div>
-
-                <div class="last-reply">
-                    Oct 12 2021
-                    <br>Przez <b><a href="#">Użytkownika</a></b>
-                </div>
-            </div>
+            
         </div>
         <!--podział na strony-->
         <div class="pagination">
@@ -164,6 +97,7 @@
         <span>Ostatni post: <b><a href="">Losowy post</a></b> w dniu 10 Styczeń 2022 przez <a href="">Użytkownika</a></span>.<br>
         <span>Sprawdź <a href="">ostatni post</a> .</span><br>
     </div>
+    {% endblock content %}
     <script src="{% static 'main.js' %}"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 {% load static %}
+{% load hitcount_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,63 +45,76 @@
     <div class="container">
         <!--Nawigacja-->
         <div class="navigate">
-            <span><a href="#">Moje Forum</a> >> <a href="#">Losowe Forum</a>>><a href="#">Losowy wpis</a></span>
+            <span><a href="{% url 'home' %}">MyForum - Forums</a> >> <a href="{{post.categories.all.0.get_url}}">{{post.categories.all.0}}</a> >> <a href="{{post.get_url}}">{{post.title}}</a></span>
         </div>
 
         <div class="topic-container">
             <div class="head">
                 <div class="authors">Autor</div>
-                <div class="content">Temat: {{post.title}} (Odczytane 1258 razy)</div>
+                <div class="content">Temat: {{post.title}} (Wyświetlone {% get_hit_count for post %} razy)</div>
             </div>
 
             <div class="body">
                 <div class="authors">
-                    <div class="username"><a href="#">{{post.user.fullname|title}}</a></div>
+                    <div class="username"><a href="">{{post.user.fullname|title}}</a></div>
                     <div>Role</div>
-                    <div>Posts: <u>455</u></div>
-                    <div>Points: <u>4586</u></div>
+                    <div>Postów: <u>{{post.user.num_posts}}</u></div>
+                    <div>Punktów: <u>{{post.user.points}}</u></div>
                 </div>
                 <div class="content">
                     {{post.content|safe}}
                 </div> 
             </div>
         </div>
-
-        <!--Komentarze-->
-        <div class="comment-area hide" id="comment-area">
-            <textarea name="comment" id="" placeholder="Wpisz komentarz tutaj ... "></textarea>
-            <input type="submit" value="Zatwierdź">
+        <div class="comment-area hide" id="comment{{comment.id}}">
+            <textarea name="reply" id="" placeholder="Odpowiedź wpisz tutaj ... "></textarea>
+            <input type="submit" value="Zatwierdź" name="reply-form">
+            <input type="hidden" name="comment-id" value="{{comment.id}}">
         </div>
-        <!--Sekcja komentarzy-->
-        <div class="comment-container">
-            <div class="head">
-                <div class="authors">Autor</div>
-                <div class="content">Komentarz</div>
-            </div>
+        <!--Komentarze-->
 
+        {% for comment in post.comments.all %}
+        <div class="comments-container">
             <div class="body">
                 <div class="authors">
-                    <div class="AnotherUser"><a href="#">Nazwa Użytkownika</a></div>
+                    <div class="username"><a href="">{{comment.user.fullname|title}}</a></div>
                     <div>Role</div>
-                    <div>Posts: <u>455</u></div>
-                    <div>Points: <u>4586</u></div>
+                    <img src="{{comment.user.profile_pic.url}}" alt="">
+                    <div>Posts: <u>{{comment.user.num_posts}}</u></div>
+                    <div>Points: <u>{{comment.user.points}}</u></div>
                 </div>
                 <div class="content">
-                    Jakiś komentarz
-                    <br>druga linia
-                    <br><br>
-                    kolejna
+                    {{comment.content}}
                     <br>
-                    <br>
-                </div> 
+                </div>
             </div>
         </div>
 
-        <!--Odpowiedź-->
-        <div class="comment-area hide" id="comment-area">
-            <textarea name="comment" id="" placeholder="Odpowiedz na komentarz tutaj ... "></textarea>
-            <input type="submit" value="Zatwierdź">
+        <div class="comment-area hide" id="comment{{comment.id}}">
+            <textarea name="reply" id="" placeholder="Odpowiedź wpisz tutaj ... "></textarea>
+            <input type="submit" value="Zatwierdź" name="reply-form">
+            <input type="hidden" name="comment-id" value="{{comment.id}}">
         </div>
+       
+        <!--Odpowiedzi-->
+        {% for reply in comment.replies.all %}
+        <div class="comments-container" style="width: 95%; margin-left:5%;">
+            <div class="body">
+                <div class="authors">
+                    <div class="username"><a href="">{{reply.user.fullname|title}}</a></div>
+                    <div>Role</div>
+                    <img src="{{reply.user.profile_pic.url}}" alt="">
+                    <div>Posts: <u>{{reply.user.num_posts}}</u></div>
+                    <div>Points: <u>{{reply.user.points}}</u></div>
+                </div>
+                <div class="content">
+                    {{reply.content}}
+                    <br>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
     </div>
 
     <div class="forum-info">
