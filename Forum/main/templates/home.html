@@ -16,9 +16,14 @@
         <div class="navbar">
             <nav class="navigation hide">
                 <ul class="nav-list">
-                    <li class="nav-item"><a href="#">Forum</a></li>
-                    <li class="nav-item"><a href="#">Posty</a></li>
-                    <li class="nav-item"><a href="#">Wiecej</a></li>
+                    <li class="nav-item"><a href="{% url 'home' %}">Forum</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a href="{% url 'logout' %}">Wyloguj</a></li>
+                    <li class="nav-item"><a href="{% url 'create_post' %}">Dodaj wpis</a></li>
+                    {% else %}
+                    <li class="nav-item"><a href="{% url 'signup' %}">Zarejestruj</a></li>
+                    <li class="nav-item"><a href="{% url 'signin' %}">Zaloguj</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>

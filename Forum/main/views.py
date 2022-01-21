@@ -1,8 +1,11 @@
 from multiprocessing import context
 from unicodedata import category
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Author, Category, Post
 from .utils import update_views
+from .forms import PostForm
+from django.contrib.auth.decorators import login_required
+
 
 def home(request):
     forums = Category.objects.all()
@@ -29,3 +32,22 @@ def posts(request, slug):
     }
 
     return render(request, "posts.html", context)
+
+
+@login_required
+def create_post(request):
+    context = {}
+    form = PostForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            print("\n\n Nieprawidłowe")
+            author = Author.objects.get(user=request.user)
+            new_post = form.save(commit=False)
+            new_post.user = author
+            new_post.save()
+            return redirect("home")
+    context.update({
+        "form": form,
+        "title": "Create New Post"
+    })
+    return render(request, "create_post.html", context)
