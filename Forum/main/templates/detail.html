@@ -1,6 +1,7 @@
 {% load static %}
 {% load hitcount_tags %}
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +12,7 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
+    <script src="{% static 'main.js' %}"></script>
 </head>
 <body>
     <header>
@@ -71,11 +73,15 @@
                 </div> 
             </div>
         </div>
-        <div class="comment-area hide" id="comment{{comment.id}}">
-            <textarea name="reply" id="" placeholder="Odpowiedź wpisz tutaj ... "></textarea>
-            <input type="submit" value="Zatwierdź" name="reply-form">
-            <input type="hidden" name="comment-id" value="{{comment.id}}">
-        </div>
+
+        <!--Wpisywanie komentarza-->
+        <form action="." method="post">
+            {% csrf_token %}
+            <div class="comment-area hide" id="comment-area">
+                <textarea name="comment" id="" placeholder="Komentarz wpisz tutaj ... "></textarea>
+                <input type="submit" value="Zatwierdź" name="comment-form">
+            </div>
+        </form>
         <!--Komentarze-->
 
         {% for comment in post.comments.all %}
@@ -95,11 +101,15 @@
             </div>
         </div>
 
-        <div class="comment-area hide" id="comment{{comment.id}}">
-            <textarea name="reply" id="" placeholder="Odpowiedź wpisz tutaj ... "></textarea>
-            <input type="submit" value="Zatwierdź" name="reply-form">
-            <input type="hidden" name="comment-id" value="{{comment.id}}">
-        </div>
+        <!--Wpisywanie odpowiedzi-->
+        <form action = "." method = "post">
+            {% csrf_token %} 
+            <div class="comment-area hide" id="comment{{comment.id}}">
+                <textarea name="reply" id="" placeholder="Odpowiedź wpisz tutaj ... "></textarea>
+                <input type="submit" value="Zatwierdź" name = "reply-form">
+                <input type="hidden" name="comment-id" value="{{comment.id}}">
+            </div>
+        </form>
        
         <!--Odpowiedzi-->
         {% for reply in comment.replies.all %}

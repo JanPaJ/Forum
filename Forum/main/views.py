@@ -1,7 +1,7 @@
 from multiprocessing import context
 from unicodedata import category
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Author, Category, Post
+from .models import Author, Category, Comment, Post, Reply
 from .utils import update_views
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
@@ -30,6 +30,21 @@ def home(request):
 
 def detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
+    author = Author.objects.get(user=request.user)
+    if "comment-form" in request.POST:
+        comment = request.POST.get("comment")
+        print(comment)
+        new_comment, created = Comment.objects.get_or_create(user = author, content = comment)
+        post.comments.add(new_comment.id)
+
+
+    if "reply-form" in request.POST:
+        reply = request.POST.get("reply")
+        comment_id = request.POST.get("comment-id")
+        comment_obj = Comment.objects.get(id = comment_id)
+        new_reply, created = Reply.objects.get_or_create(user = author, content = reply)
+        comment_obj.replies.add(new_reply.id)
+
 
     forums = Category.objects.all()
     num_posts = Post.objects.all().count()
