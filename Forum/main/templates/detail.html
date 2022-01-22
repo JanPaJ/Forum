@@ -18,9 +18,14 @@
         <div class="navbar">
             <nav class="navigation hide">
                 <ul class="nav-list">
-                    <li class="nav-item"><a href="#">Forum</a></li>
-                    <li class="nav-item"><a href="#">Posty</a></li>
-                    <li class="nav-item"><a href="#">Wiecej</a></li>
+                    <li class="nav-item"><a href="{% url 'home' %}">Forum</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a href="{% url 'logout' %}">Wyloguj</a></li>
+                    <li class="nav-item"><a href="{% url 'create_post' %}">Dodaj wpis</a></li>
+                    {% else %}
+                    <li class="nav-item"><a href="{% url 'signup' %}">Zarejestruj</a></li>
+                    <li class="nav-item"><a href="{% url 'signin' %}">Zaloguj</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -121,9 +126,9 @@
         <div class="chart">
             Forum GIS - Statystyki &nbsp;<i class="fa fa-bar-chart"></i>
         </div>
-        <span><u>5,369</u> Postów w <u>48</u> Tematach przez <u>8,124</u> Użytkowników.</span><br>
-        <span>Ostatni post: <b><a href="">Losowy post</a></b> w dniu 10 Styczeń 2022 przez <a href="">Użytkownika</a></span>.<br>
-        <span>Sprawdź <a href="">ostatni post</a> .</span><br>
+        <span><u>{{num_posts}}</u> Postów w <u>{{num_categories}}</u> Kategoriach przez <u>{{num_users}}</u> Użytkowników.</span><br>
+        <span>Ostatni post: <b><a href="{{last_post.get_url}}">{{last_post.title}}</a></b> on {{last_post.date|date}} wykonany przez <a href="">{{last_post.user.fullname|title}}</a></span>.<br>
+        <span>Sprawdź <a href="{% url 'latest_posts' %}">ostatni post</a> .</span><br>
     </div>
 
     <script src="{% static 'main.js' %}"></script>

@@ -82,7 +82,7 @@
         </div>
         <!--podział na strony-->
         <div class="pagination">
-            Strony: <a href="#">1</a><a href="#">2</a><a href="#">3</a>
+            Strony: {% for num_page in posts.paginator.page_range %} <a href="?page={{num_page}}">{{num_page}}</a> {% endfor %}
         </div>
         <!--Legenda dotycząca statusu-->
         <div class="note">
@@ -98,9 +98,9 @@
         <div class="chart">
             Forum GIS - Statystyki &nbsp;<i class="fa fa-bar-chart"></i>
         </div>
-        <span><u>5,369</u> Postów w <u>48</u> Tematach przez <u>8,124</u> Użytkowników.</span><br>
-        <span>Ostatni post: <b><a href="">Losowy post</a></b> w dniu 10 Styczeń 2022 przez <a href="">Użytkownika</a></span>.<br>
-        <span>Sprawdź <a href="">ostatni post</a> .</span><br>
+        <span><u>{{num_posts}}</u> Postów w <u>{{num_categories}}</u> Kategoriach przez <u>{{num_users}}</u> Użytkowników.</span><br>
+        <span>Ostatni post: <b><a href="{{last_post.get_url}}">{{last_post.title}}</a></b> on {{last_post.date|date}} wykonany przez <a href="">{{last_post.user.fullname|title}}</a></span>.<br>
+        <span>Sprawdź <a href="{% url 'latest_posts' %}">ostatni post</a> .</span><br>
     </div>
     {% endblock content %}
     <script src="{% static 'main.js' %}"></script>
