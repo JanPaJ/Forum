@@ -42,7 +42,7 @@
                 <div class="subjects">
                     <a href="{{post.get_url}}">{{post.title}}</a>
                     <br>
-                    <span>Rozpoczęty przez <b><a href="#">{{post.user.fullname|title}}</a></b></span>
+                    <span>Rozpoczęty przez <b>{{post.user.fullname|title}}</b></span>
                 </div>
 
                 <div class="replies">
@@ -51,7 +51,7 @@
 
                 <div class="last-reply">
                     {{post.last_reply.date|date}}
-                    <br>Przez <b><a href="#">{{post.last_reply.user.fullname|title}}</a></b>
+                    <br>Przez <b>{{post.last_reply.user.fullname|title}}</b>
                 </div>
             </div>
             {% endfor %}
@@ -77,7 +77,7 @@
             Forum GIS - Statystyki &nbsp;<i class="fa fa-bar-chart"></i>
         </div>
         <span><u>{{num_posts}}</u> Postów w <u>{{num_categories}}</u> Kategoriach przez <u>{{num_users}}</u> Użytkowników.</span><br>
-        <span>Ostatni post: <b><a href="{{last_post.get_url}}">{{last_post.title}}</a></b> on {{last_post.date|date}} wykonany przez <a href="">{{last_post.user.fullname|title}}</a></span>.<br>
+        <span>Ostatni post: <b><a href="{{last_post.get_url}}">{{last_post.title}}</a></b> on {{last_post.date|date}} wykonany przez <b style="font-size:18px;">{{last_post.user.fullname|title}}</b></span>.<br>
         <span>Sprawdź <a href="{% url 'latest_posts' %}">ostatni post</a> .</span><br>
     </div>
     {% endblock content %}

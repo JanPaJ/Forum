@@ -135,5 +135,21 @@ def latest_posts(request):
     return render(request, "latest_posts.html", context)
 
 def search_result(request):
+    forums = Category.objects.all()
+    num_posts = Post.objects.all().count()
+    num_users = User.objects.all().count()
+    num_categories = forums.count()
+    try:
+        last_post = Post.objects.latest("date")
+    except:
+        last_post = []
 
-    return render(request, "search.html")
+    context = {
+        "forums":forums,
+        "num_posts":num_posts,
+        "num_users":num_users,
+        "num_categories":num_categories,
+        "last_post":last_post,
+    }
+
+    return render(request, "search.html",context)

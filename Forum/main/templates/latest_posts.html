@@ -17,11 +17,22 @@
 
             {% for post in posts %}
             <div class="table-row">
-                <div class="status"><i class="fa fa-fire"></i></div>
+                {% if  post.closed == True %}
+                <div class = "status"><i class="fa fa-key"></i></div>
+                {% elif post.num_comments == 0%}
+                <div class = "status"><i class="fa fa-frown-o"></i></div>
+                {% elif post.num_comments > 0 and post.num_comments < 2%}
+                <div class = "status"><i class="fa fa-meh-o"></i></div>
+                {% elif post.num_comments > 2 and post.num_comments < 4%}
+                <div class = "status"><i class="fa fa-smile-o"></i></div>
+                {% elif post.num_comments >= 4%}
+                <div class = "status"><i class="fa fa-line-chart"></i></div>
+                
+                {% endif %}
                 <div class="subjects">
                     <a href="{{post.get_url}}">{{post.title}}</a>
                     <br>
-                    <span>Rozpoczęte przez <b><a href="">{{post.user.fullname|title}}</a></b> .</span>
+                    <span>Rozpoczęte przez <b>{{post.user.fullname|title}}</b> .</span>
                 </div>
                 <div class="replies">
                     {{post.num_comments}} komentarzy <br> {% get_hit_count for post %} kliknięć
@@ -29,7 +40,7 @@
 
                 <div class="last-reply">
                     {{post.last_reply.date|date}}
-                    <br>Przez <b><a href="">{{post.last_reply.user.fullname|title}}</a></b>
+                    <br>Przez <b>{{post.last_reply.user.fullname|title}}</b>
                 </div>
             </div>
             {% endfor %}
