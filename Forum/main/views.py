@@ -30,13 +30,17 @@ def home(request):
 
 def detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
+
     if request.user.is_authenticated:
-        author = Author.objects.get(user=request.user)
+        if request.user.is_superuser:
+            author = request.user
+        else:
+            author = Author.objects.get(user=request.user)
         
     if "comment-form" in request.POST:
         comment = request.POST.get("comment")
-        print(comment)
-        new_comment, created = Comment.objects.get_or_create(user = 12, content = comment)
+
+        new_comment, created = Comment.objects.get_or_create(user = author, content = comment)
         post.comments.add(new_comment.id)
 
 

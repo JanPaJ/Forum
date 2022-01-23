@@ -16,7 +16,7 @@ User = get_user_model()
 class Author(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     fullname = models.CharField(max_length=40, blank=True)
-    slug = slug = models.SlugField(max_length=400, unique=True, blank=True)
+    slug = models.SlugField(max_length=400, unique=True, blank=True)
     bio = HTMLField()
     points = models.IntegerField(default=0)
 
@@ -116,8 +116,4 @@ class Post(models.Model):
 
     @property
     def last_reply(self):
-        return self.comments.latest("date")
-
-    @property
-    def get_(self):
         return self.comments.latest("date")
