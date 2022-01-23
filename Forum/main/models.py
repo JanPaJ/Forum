@@ -95,7 +95,8 @@ class Post(models.Model):
     )
     tags = TaggableManager()
     comments = models.ManyToManyField(Comment,blank=True)
-
+    closed = models.BooleanField(default=False)
+    state = models.CharField(max_length=40, default="zero")
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -115,4 +116,8 @@ class Post(models.Model):
 
     @property
     def last_reply(self):
+        return self.comments.latest("date")
+
+    @property
+    def get_(self):
         return self.comments.latest("date")
