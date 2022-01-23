@@ -34,17 +34,19 @@
             <img src="{% static 'ziemia.png' %}" alt="ziemia"width="300" height="300">
         </div>
         <!--Wyszukiwanie-->
-        <div class="search-box">
-            <div>
-                <select name="" id="">
-                    <option value="Everything">Wszystko</option>
-                    <option value="Titles">Tytuły</option>
-                    <option value="Descriptions">Opisy</option>
-                </select>
-                <input type="text" name="q" placeholder="search ...">
-                <button><i class="fa fa-search"></i></button>
+        <form action = "{% url 'search_result' %}" role = "form" method = "GET">
+            <div class="search-box">
+                <div>
+                    <select name="search-box" id="">
+                        <option value="Everything">Wszystko</option>
+                        <option value="Titles">Tytuły</option>
+                        <option value="Descriptions">Opisy</option>
+                    </select>
+                    <input type="text" name="q" placeholder="search ...">
+                    <button type="submit" name="search"><i class="fa fa-search"></i></button>
+                </div>
             </div>
-        </div>
+        </form>
     </header>
     {% block content %}
     {% endblock content %}
