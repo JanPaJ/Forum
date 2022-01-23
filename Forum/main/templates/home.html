@@ -21,7 +21,7 @@
                     <span>{{forum.num_posts}} posty</span>
                 </div>
                 <div class="subforum-info subforum-column">
-                    <b><a href="{{forum.last_post.get_url}}">Ostatni post</a></b> przez <a href="">{{forum.last_post.user.fullname|title}}</a> 
+                    <b><a href="{{forum.last_post.get_url}}">Ostatni post</a></b> przez <b>{{forum.last_post.user.fullname|title}}</b>
                     <br>w dniu <small>{{forum.last_post.date|date}}</small>
                 </div>
             </div>
@@ -37,7 +37,7 @@
             Forum GIS - Statystyki &nbsp;<i class="fa fa-bar-chart"></i>
         </div>
         <span><u>{{num_posts}}</u> Postów w <u>{{num_categories}}</u> Kategoriach przez <u>{{num_users}}</u> Użytkowników.</span><br>
-        <span>Ostatni post: <b><a href="{{last_post.get_url}}">{{last_post.title}}</a></b> on {{last_post.date|date}} wykonany przez <a href="">{{last_post.user.fullname|title}}</a></span>.<br>
+        <span>Ostatni post: <b><a href="{{last_post.get_url}}">{{last_post.title}}</a></b> on {{last_post.date|date}} wykonany przez <b style="font-size:18px;">{{last_post.user.fullname|title}}</b></span>.<br>
         <span>Sprawdź <a href="{% url 'latest_posts' %}">ostatni post</a> .</span><br>
     </div>
     {% endblock content %}
